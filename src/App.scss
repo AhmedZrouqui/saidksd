@@ -8,16 +8,21 @@
 }
 
 .App{
-    display: flex;
     height: 100vh;
     width: 100vw;
     overflow: hidden;
+    position: relative;
 
     .left-section{
         width: 120px;
+        height: 100%;
+        position: fixed;
+        left:0;
+        top: 0;
         background: #181818;
         overflow: hidden;
         display: flex;
+        z-index: 2;
         .menu-button{
             display: flex;
             align-items: center;
@@ -59,6 +64,8 @@
                     margin-right: 24px;
                     font-size: 18px;
                     color: #242424;
+                    &::selection { background: transparent; }
+                    &::-moz-selection { background: transparent; }
                 }
 
                 li:not(.dot){
@@ -85,55 +92,103 @@
             }
 
             h2{
-                position: fixed;
+                position: absolute;
                 top: 50%;
                 transform: translateY(-50%);
-                left: calc(120px + 24px);
                 line-height: 1;
                 font-size: 280px !important;
                 color: #565656;
                 opacity: .1;
                 z-index: 1;
+                white-space: nowrap;
+
+                &::selection { background: transparent; }
+                &::-moz-selection { background: transparent; }
             }
 
             h1{
-                position: fixed;
+                position: absolute;
                 top: 50%;
                 font-size: 28px;
                 text-transform: uppercase;
                 line-height: 65px;
-                left: calc(120px + 24px);
-                color: #636262;
+                color: #8a8a8a;
                 transform: translateY(-50%);
                 z-index: 2;
+                white-space: nowrap;
+
+                &::selection { background: transparent; }
+                &::-moz-selection { background: transparent; }
             }
         }
 
-        transition: 1.5s all ease-in-out;
-    }
-
-    .expand-section{
-        width: 7000px !important;
-        transition: 1.5s all ease-in-out;
+        transition: 1.2s all ease-in-out;
     }
 
     .right-section{
         overflow-y: auto;
-        width: 100%;
-        background: goldenrod;
-        transition: 1.5s all ease-in-out;
-        z-index: 1000;
+        width: calc(100vw - 120px);
+        margin-left: 120px;
+        height: 100%;
+        
+        transition: 1.2s all ease-in-out;
         display:flex;
         flex-wrap: wrap;
 
         article{
-            min-width: calc(100% / 3);
+            width: calc(100% / 3);
             height: calc(100% / 2);
             background: #333;
             display: block;
             display:flex;
             align-items: center;
             justify-content: center;
+            position: relative;
+            overflow: hidden;
+
+            img{
+                max-height:100%;
+                object-fit: cover;
+            }
+
+            &::before{
+                content: 'click to see project.';
+                background: #181818;
+                position: absolute;
+                height: 150%;
+                width: 150%;
+                left: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                opacity: 0;
+                cursor: pointer;
+
+                text-transform: uppercase;
+                font-weight: 800;
+
+                transition: .2s all ease-out;
+            }
+
+            &:hover::before{
+                opacity: 1;
+                transition: .2s all ease-out;
+            }
         }
+    }
+
+}
+
+.expand-menu{
+    .left-section{
+        width: 70vw;
+        transition: 1.5s all ease-in-out;
+    }
+
+    .right-section{
+        margin-left: 70vw;
+        transition: 1.5s all ease-in-out;
     }
 }

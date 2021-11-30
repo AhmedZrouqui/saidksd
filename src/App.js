@@ -1,44 +1,25 @@
 import './App.scss';
 import {ReactComponent as Menu} from './menu.svg'
 import {useRef, useState, useEffect} from 'react'
-import images from './images'
 import {TweenMax, Power3} from 'gsap';
 import CustomCursor from './components/CustomCursor';
+import {getAllPosts, getPostBySlug} from './contentful/contentful';
 
 function App() {
+  const [posts, setPosts] = useState(null);
 
-  const query = `
-    {
-      portfolioPostCollection {
-        items{
-          postTitle
-          postContent
-        }
-      }
-    }
-    `
-  const [page, setPage] = useState(null);
-
-  console.log(process.env.CONTENTFUL_API_LINK, process.env.CONTENTFUL_ACCESS_TOKEN)
+  
   useEffect(() => {
-    window
-      .fetch(`https://graphql.contentful.com/content/v1/spaces/3oa8py5argun`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer PqDRIqXBLnQMIgxTeGHUM7buKYnvPYxXqSyXthL21dM",
-        },
-        body: JSON.stringify({ query }),
-      })
-      .then((response) => response.json())
-      .then(({ data, errors }) => {
-        if (errors) {
-          console.error(errors);
-        }
-
-        console.log(data)
-      });
+    getAllPosts()
+    .then((response) => setPosts(response))
   }, []);
+
+  const onPostClick = (slug) => {
+    console.log(slug)
+    getPostBySlug(slug)
+    .then((response) => console.log(response))
+  }
+
 
   let link1 = useRef(null)
   let dot1 = useRef(null)
@@ -51,6 +32,8 @@ function App() {
   let second = useRef(null)
 
   let presentation = useRef(null)
+
+
 
 
 
@@ -120,36 +103,13 @@ function App() {
         </section>
       </div>
       <div className="right-section">
-        <article>
-          <img src={images.image1}></img>
-        </article>
-        <article>
-          <img src={images.image2}></img>
-        </article>
-        <article>
-          <img src={images.image3}></img>
-        </article>
-        <article>
-          <img src={images.image2}></img>
-        </article>
-        <article>
-          <img src={images.image3}></img>
-        </article>
-        <article>
-          <img src={images.image1}></img>
-        </article>
-        <article>
-          <img src={images.image2}></img>
-        </article>
-        <article>
-          <img src={images.image1}></img>
-        </article>
-        <article>
-          <img src={images.image2}></img>
-        </article>
-        <article>
-          <img src={images.image3}></img>
-        </article>
+        {
+          posts &&
+          posts.portfolioPostCollection.items.map((item) => 
+          <article onClick={() => onPostClick(item.postSlug)}>
+            <img src={item.postFileCollection.items[0].url} alt={item.postFileCollection.items[0].title} />
+          </article>)
+        }
       </div>
     </div>
     </>

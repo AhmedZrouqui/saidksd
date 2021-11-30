@@ -1,11 +1,44 @@
 import './App.scss';
 import {ReactComponent as Menu} from './menu.svg'
-import {useRef} from 'react'
+import {useRef, useState, useEffect} from 'react'
 import images from './images'
 import {TweenMax, Power3} from 'gsap';
 import CustomCursor from './components/CustomCursor';
 
 function App() {
+
+  const query = `
+    {
+      portfolioPostCollection {
+        items{
+          postTitle
+          postContent
+        }
+      }
+    }
+    `
+  const [page, setPage] = useState(null);
+
+  console.log(process.env.CONTENTFUL_API_LINK, process.env.CONTENTFUL_ACCESS_TOKEN)
+  useEffect(() => {
+    window
+      .fetch(`https://graphql.contentful.com/content/v1/spaces/3oa8py5argun`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer PqDRIqXBLnQMIgxTeGHUM7buKYnvPYxXqSyXthL21dM",
+        },
+        body: JSON.stringify({ query }),
+      })
+      .then((response) => response.json())
+      .then(({ data, errors }) => {
+        if (errors) {
+          console.error(errors);
+        }
+
+        console.log(data)
+      });
+  }, []);
 
   let link1 = useRef(null)
   let dot1 = useRef(null)
@@ -33,11 +66,11 @@ function App() {
 
         TweenMax.to(first, 2, {opacity: 0, x: -40, ease: Power3.easeOut}, 1)
         TweenMax.to(second, 2, {opacity: 0, x: -40, ease: Power3.easeOut}, 1.2)
-        TweenMax.to(presentation, 4, {opacity: 0, ease: Power3.easeOut}, 1.5)
+        TweenMax.to(presentation, 2, {opacity: 0, ease: Power3.easeOut}, 1.5)
 
         setTimeout(() => {
           app.classList.remove("expand-menu");
-        }, 1500)
+        }, 600)
       }
       else{
         app.classList.add("expand-menu");

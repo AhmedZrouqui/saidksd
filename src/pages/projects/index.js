@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react'
+import Layout from '../../components/layout';
 import ProjectsComponent from '../../components/projects'
 import { getAllPosts } from '../../contentful/contentful';
 import './index.scss'
@@ -14,9 +15,9 @@ const Projects = () => {
     }, []);
 
     return (
-        <div className="mainPage projectsPage">
-            <ProjectsComponent articles={articles} setArticles={setArticles}/>
-        </div>
+        <Layout classname="mainPage projectsPage"> 
+            <ProjectsComponent articles={articles} setArticles={setArticles} />
+        </Layout>
     )
 }
 

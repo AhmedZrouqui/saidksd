@@ -7,7 +7,7 @@ const ProjectsComponent = (props) => {
     const {articles} = props;
 
     return (
-        <div className="projectsComponent">
+        <div className="projectsComponent right-section">
             {
                 articles &&
                 articles.portfolioPostCollection.items.map(

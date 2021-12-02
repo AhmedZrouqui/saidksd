@@ -9,6 +9,8 @@ article{
     position: relative;
     overflow: hidden;
 
+    flex-grow: 1;
+
     cursor: pointer;
 
     img{

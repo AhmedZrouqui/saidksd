@@ -1,17 +1,43 @@
-import './global.scss';
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Redirect,
+} from "react-router-dom";
 
-import CustomCursor from './components/customCursor';
-import Menu from './components/menu';
-import Projects from './pages/projects';
+import { Suspense, lazy } from 'react';
+import './global.scss';
+import delayPage from './utils/promiseDelay';
+
+const Projects = lazy(() => delayPage(import("./pages/projects")))
+const Page404 = () => <h1>404 Not Found</h1>;
+
+
 
 function App() {
 
   return (
-    <div className="App" id="main">
-      <CustomCursor />
-      <Menu />
-      <Projects />
-    </div>
+    <Router>
+      <Suspense
+        fallback={
+          <div
+            className="loading-spinner"
+            role="status">
+            aa
+          </div>
+        }
+      >
+        <Routes>
+            {
+              ['/', '/projects'].map(path => 
+                <Route path={path} exact element={<Projects />} />
+              )
+            }
+            <Route path="*" element={Page404} />
+        </Routes>
+      </Suspense>
+    </Router>
+    
   );
 }
 

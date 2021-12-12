@@ -1,3 +1,5 @@
+import CustomCursor from './components/customCursor';
+
 import {
   BrowserRouter as Router,
   Route,
@@ -7,9 +9,8 @@ import {
 
 import { Suspense, lazy } from 'react';
 import './global.scss';
-import delayPage from './utils/promiseDelay';
 
-const Projects = lazy(() => delayPage(import("./pages/projects")))
+const Projects = lazy(() => import("./pages/projects"))
 const Page404 = () => <h1>404 Not Found</h1>;
 
 

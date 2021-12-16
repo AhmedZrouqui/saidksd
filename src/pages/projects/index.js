@@ -14,6 +14,8 @@ const Projects = () => {
         .then((response) => setArticles(response))
     }, []);
 
+    console.log(articles)
+
     return (
         <Layout classname="mainPage projectsPage"> 
             <ProjectsComponent articles={articles} setArticles={setArticles} />

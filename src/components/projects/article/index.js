@@ -1,13 +1,14 @@
 import React from 'react'
 import './index.scss';
-import { getPostBySlug } from '../../../contentful/contentful'
+import { useNavigate } from "react-router-dom";
 
 
 const Article = (props) => {
 
+    let navigate = useNavigate()
+
     const onArticleClick = (slug) => {
-        getPostBySlug(slug)
-        .then((response) => console.log(response))
+        navigate(`/projects/${slug}`)
     }
     
 

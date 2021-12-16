@@ -11,8 +11,8 @@ import {
 import { Suspense, lazy } from 'react';
 import './global.scss';
 
-const Projects = lazy(() => delayImport("./pages/projects"))
-const Project = lazy(() => delayImport("./pages/project"))
+const Projects = lazy(() => delayImport(import("./pages/projects")))
+const Project = lazy(() => delayImport(import("./pages/project")))
 const Page404 = () => <h1>404 Not Found</h1>;
 
 
